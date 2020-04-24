@@ -18,7 +18,7 @@ echo.on('connection', function(conn) {
 });
 const isProd = !!process.env.PORT;
 app.get('*', (req, res, next) => {
-    if (isProd) {
+    if (isProd && req.protocol === 'http') {
         res.redirect('https://' + req.headers.host + req.url);
     } else {
         next();
