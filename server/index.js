@@ -31,7 +31,7 @@ app.use('/node_modules', express.static('node_modules'));
 app.use('/', express.static('client'))
 
 
-
+const port = process.env.PORT || 8080
 
 const server  = app.listen('8080', () => {
     console.log('I am listening')
