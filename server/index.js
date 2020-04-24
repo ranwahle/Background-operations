@@ -18,7 +18,7 @@ echo.on('connection', function(conn) {
 });
 const isProd = !!process.env.PORT;
 app.get('*', (req, res, next) => {
-    console.log('port', req.haders);
+    console.log('port', req.headers);
     if (isProd && process.env.PORT === 80) {
         res.redirect('https://' + req.headers.host + req.url);
     } else {
