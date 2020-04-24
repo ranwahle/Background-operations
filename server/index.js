@@ -16,6 +16,14 @@ echo.on('connection', function(conn) {
         clients = clients.filter(cl => cl !== conn);
     });
 });
+const isProd = !!process.env.PORT;
+app.get('*', (req, res, next) => {
+    if (isProd) {
+        res.redirect('https://' + req.headers.host + req.url);
+    } else {
+        next();
+    }
+})
 
 app.use('/images', express.static('images'));
 
