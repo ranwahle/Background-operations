@@ -18,8 +18,8 @@ echo.on('connection', function(conn) {
 });
 const isProd = !!process.env.PORT;
 app.get('*', (req, res, next) => {
-    console.log(req.headers);
-    if (isProd && req.protocol === 'http') {
+    console.log(req.port);
+    if (isProd && req.port === 80) {
         res.redirect('https://' + req.headers.host + req.url);
     } else {
         next();
