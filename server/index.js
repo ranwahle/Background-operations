@@ -1,7 +1,6 @@
 import express from 'express';
 import sockjs  from 'sockjs';
 import bodyParser from 'body-parser';
-import https from 'https';
 
 const app = express();
 app.use(bodyParser.json());
