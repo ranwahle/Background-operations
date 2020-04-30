@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Background sync</title>
-    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
     <link rel="manifest" href="./manifest.json">
     <meta name="description" content="Background sync demo" >
     <script type="module" src="index.js"></script>
@@ -17,6 +16,10 @@
 <label for="txtName">Name:</label><input type="text" placeholder="Your name" id="txtName"/>
 <messages-area-component></messages-area-component>
 <message-component></message-component>
-
+<button id="btnStartPeriodicSync">Start Periodic sync</button>
+<button id="btnGetCachedMessages">Get Messages</button>
+<button id="btnBackgroundFetch">Fetch</button>
+<progress id="fetchProgress" max="100" value="0"></progress>
+<status-element></status-element>
 </body>
 </html>

@@ -59,12 +59,29 @@ message-bullet-component div div.sender {
     font-size: 12px;
     color: blue;
 }
+.status-div {
+    border-style: solid;
+    border-width: 1px;
+}
+message-bullet-component div div.date {
+    font-size: 12px;
+    color: blue;
+}
+
+
 
 button {
     background-color: #2354f1;
     color: white;
-    border-radius: 3px;
+    border-radius: 12px;
+    margin: 5px;
+    padding: 5px;
     font-size: 18px;
     font-family: sans-serif;
+    transition: background-color 1s;
+    outline-style: none;
+}
 
+button:disabled {
+    background-color: rgba(35, 84, 241, 0.49);
 }

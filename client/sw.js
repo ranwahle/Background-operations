@@ -1,8 +1,13 @@
 self.messages = [];
+const CACHE_NAME = 'background-ops-cache';
 
-addEventListener('sync', function (evt) {
+addEventListener('sync', async function (evt) {
     if (evt.tag === 'send-message') {
         evt.waitUntil(sendEverything(evt))
+    }
+    const client = await clients.get(self.clientId);
+    if (client) {
+        client.postMessage( {type: evt.type, tag: evt.tag, success: true});
     }
 });
 
@@ -24,7 +29,7 @@ self.addEventListener('activate', function(event) {
 
 self.addEventListener("install", installEvent => {
     installEvent.waitUntil(
-        caches.open('').then(function(cache) {
+        caches.open(CACHE_NAME).then(function(cache) {
             return cache.addAll(
                 [
                     '/',
@@ -39,6 +44,7 @@ self.addEventListener("install", installEvent => {
                     'message-component.js',
                     'message-sender.js',
                     'messages-area-component.js',
+                    'status-component.js',
                     'style.css',
                     'sw.js',
 
@@ -81,7 +87,6 @@ addEventListener('backgroundfetchsuccess', (event) => {
 addEventListener('backgroundfetchclick', (event) => {
     const bgFetch = event.registration;
 
-    console.log('fetch event',event);
 
     if (bgFetch.result === 'success') {
         clients.openWindow('/latest-podcasts');
@@ -120,6 +125,43 @@ async function sendEverything(evt) {
     });
 }
 
+self.addEventListener('fetch', function(event) {
+    self.clientId = event.clientId;
+    event.respondWith(
+        caches.match(event.request)
+            .then(function(response) {
+                if (event.request.url.startsWith('/api')) {
+                    return response || fetchAndCache(event.request, response);
+                } else {
+                    return fetchAndCache(event.request, response);
+                }
+            })
+    );
+});
+
+function fetchAndCache(request, cachedResponse) {
+    return fetch(request)
+        .then(function(response) {
+            // Check if we received a valid response
+            if (!response.ok) {
+                throw Error(response.statusText);
+            }
+            return caches.open(CACHE_NAME)
+                .then(function(cache) {
+                    if (request.method === 'post') {
+                        return response;
+                    }
+                    cache.put(request, response.clone());
+                    return response;
+                });
+        })
+        .catch(function(error) {
+            console.error('Request failed:', error);
+            return cachedResponse;
+            // You could return a custom offline 404 page here
+        });
+}
+
 async function sendMessage(message) {
     await fetch('/api/message', {
         method: 'post', body: JSON.stringify(message),
@@ -127,3 +169,24 @@ async function sendMessage(message) {
         headers: {'content-type': 'application/json'}
     });
 }
+
+
+// Periodic sync
+
+async function getMessages(event) {
+
+    const response = await fetch('/api/messages');
+    const messages = await response.json();
+    const client = await clients.get(self.clientId);
+    if (!client) {
+        return;
+    }
+    const {type, tag} = event;
+     client.postMessage({tag, type, success:true});
+}
+
+self.addEventListener('periodicsync', (event) => {
+    if (event.tag === 'get-messages') {
+         event.waitUntil(getMessages(event));
+    }
+});

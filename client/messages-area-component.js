@@ -27,7 +27,7 @@ export class MessagesAreaComponent extends HTMLElement {
     }
 
     set messages(messages) {
-        this._messages = messages;
+        this._messages = messages.sort((x, y) => y.timeStamp - x.timeStamp);
         this.render();
     }
 

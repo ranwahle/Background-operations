@@ -1,7 +1,19 @@
-export async function sendMessage(message) {
-    await fetch('/api/message', {
-        method: 'post', body: JSON.stringify(message),
+function doSomeErrorHandling(e) {
+    
+}
 
-        headers: {'content-type': 'application/json'}
-    });
+export async function sendMessage(message) {
+    try {
+        await fetch('/api/message', {
+            method: 'post', body: JSON.stringify(message),
+
+            headers: {'content-type': 'application/json'}
+        });
+
+        return true;
+
+    } catch (e) {
+        doSomeErrorHandling(e)
+    }
+    
 }
