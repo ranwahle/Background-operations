@@ -71,14 +71,14 @@ addEventListener('backgroundfetchsuccess', (event) => {
         // Wait for the copying to complete.
         await Promise.all(promises);
 
-        // Update the progress notification.
-        event.updateUI({ title: 'Episode 5 ready to listen!',
-            icons: [{
-                sizes: '300x300',
-                src: '/images/ep5-icon.png',
-                type: 'image/png',
-            }]
-        });
+        //Update the progress notification.
+        // event.updateUI({ title: 'Chrome is ready to be installed!',
+        //     icons: [{
+        //         sizes: '192x192',
+        //         src: '/images/icon-192.png',
+        //         type: 'image/png',
+        //     }]
+        // });
     }());
     console.log('fetch success');
 

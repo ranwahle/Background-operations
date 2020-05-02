@@ -25,17 +25,18 @@ const fetchGoogleChrome = async () => {
                 src: 'images/icon-192.png',
                 type: 'image/png',
             }],
-            downloadTotal: 2 * 88.1 * 1024 * 1024
+            downloadTotal: 2 * 88061320
         });
 
-    result.onprogress = progress => {
-        const percentage = progress.target.downloaded / progress.target.downloadTotal * 100;
-        document.querySelector('#fetchProgress').value = percentage;
+    result.onprogress = progressEvent => {
+        const { downloaded, downloadTotal } = progressEvent.target
+        document.querySelector('#fetchProgress').value =  downloaded / downloadTotal * 100;
 
-        if (progress.target.result) {
+        if (progressEvent.target.result) {
             fetchButton.textContent = 'Fetch';
         }
     }
+
     fetchButton.textContent = 'Abort Fetch';
 
     console.log('result', result);
@@ -86,7 +87,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         txtSenderName.onchange = () => {
             messagesArea.senderName = txtSenderName.value;
         }
-const messageComponent =   document.querySelector('message-component');
+        const messageComponent = document.querySelector('message-component');
 
         messageComponent.addEventListener('send'
             , async evt => {
@@ -113,8 +114,8 @@ const messageComponent =   document.querySelector('message-component');
         document.querySelector('#btnStartPeriodicSync')
             .addEventListener('click', async () => {
                 const result = await swRegistration.periodicSync
-                        .register('get-messages',
-                    {minInterval: 10})
+                    .register('get-messages',
+                        {minInterval: 10})
                 console.log('We have registered a periodic sync event', result);
             });
 
