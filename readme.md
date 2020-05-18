@@ -95,6 +95,3 @@ addEventListener('backgroundfetchsuccess', (event) => {
 
     }());
 ```
-
-
-    event.waitUntil(async function()  {}
