@@ -23,7 +23,7 @@ addEventListener('sync', async function (evt) {
 ## Periodic backgroudn sync 
 This event is dispatched periodicly according to the user-agent decision, and it is permitted only on preinstalled PWAs.
 It also run on a trusted network and with sites you are frequently engaged with.
-. You may check [chrome://site-engagement](chrome://site-engagement), or [edge://site-engagement](edge://site-engagement/) for that.
+ You may check [chrome://site-engagement](chrome://site-engagement), or [edge://site-engagement](edge://site-engagement/) for that.
 
 
 ### Main worker side
