@@ -71,14 +71,10 @@ addEventListener('backgroundfetchsuccess', (event) => {
         // Wait for the copying to complete.
         await Promise.all(promises);
 
-        //Update the progress notification.
-        // event.updateUI({ title: 'Chrome is ready to be installed!',
-        //     icons: [{
-        //         sizes: '192x192',
-        //         src: '/images/icon-192.png',
-        //         type: 'image/png',
-        //     }]
-        // });
+       //Update the progress notification.
+        event.updateUI({ title: 'Downloaded',
+           icons: [],
+        });
     }());
     console.log('fetch success');
 
